@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AetherSpace // Cosmic HUD Tracker</title>
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Lucide Icons (Futuristic Outline Set) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <!-- Starfield Interactive Canvas Backplate -->
+    <canvas id="starfield"></canvas>
+
+    <!-- Scanline CRT Retro Grid Overlay -->
+    <div class="crt-overlay"></div>
+
+    <!-- Main Application HUD -->
+    <div class="hud-layout">
+        
+        <!-- Status Header Bar -->
+        <header class="hud-header">
+            <div class="brand-section">
+                <div class="brand-logo"></div>
+                <div class="brand-text">
+                    <h1>AETHERSPACE</h1>
+                </div>
+            </div>
+
+            <!-- Real-time HUD system status -->
+            <div class="hud-status-node">
+                <div class="status-dot"></div>
+                <span id="system-status-text">DEEP SPACE TELEMETRY LINKED</span>
+            </div>
+
+            <!-- Audio & Control Settings -->
+            <div class="header-controls">
+                <button id="hud-audio-toggle" class="filter-btn" title="Toggle Sound FX">
+                    <i data-lucide="volume-2"></i>
+                </button>
+                <button id="hud-settings-toggle" class="filter-btn" title="API Configuration">
+                    <i data-lucide="settings"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Master Interface Splitter -->
+        <div class="hud-body">
+            
+            <!-- Left Navigation HUD -->
+            <aside class="hud-sidebar">
+                <span class="sidebar-title">NAVIGATION SYSTEM</span>
+                
+                <button class="hud-nav-btn active" data-target="view-orbital">
+                    <i data-lucide="orbit"></i>
+                    <span>ORBITAL TRACKER</span>
+                </button>
+                <button class="hud-nav-btn" data-target="view-rover">
+                    <i data-lucide="aperture"></i>
+                    <span>MARS TELEMETRY</span>
+                </button>
+                <button class="hud-nav-btn" data-target="view-apod">
+                    <i data-lucide="database"></i>
+                    <span>COSMIC DATABASE</span>
+                </button>
+            </aside>
+
+            <!-- Main Interactive Viewports -->
+            <main class="hud-viewport scrollable">
+                
+                <!-- View 1: Orbital Asteroid Canvas -->
+                <section id="view-orbital" class="hud-view active">
+                    <div class="orbital-layout">
+                        <!-- Canvas View -->
+                        <div class="panel glass-panel orbital-viewport-panel">
+                            <div class="panel-header">
+                                <span class="panel-tag" id="orbital-status">INITIALIZING ORBIT SCANNER...</span>
+                                <h2>NEOPATH RADAR SYSTEM</h2>
+                            </div>
+                            <div class="panel-body p-0 relative">
+                                <div class="canvas-container">
+                                    <canvas id="orbital-canvas"></canvas>
+                                    <div class="canvas-hud-hint">
+                                        [SCROLL] TO ZOOM VIEWPORT<br>
+                                        [DRAG] TO PAN CAMERA FEED<br>
+                                        [CLICK] ASTEROID NODE FOR DATA
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Side Telemetry Readout -->
+                        <div id="orbital-telemetry" class="panel glass-panel orbital-telemetry-panel">
+                            <!-- Telemetry loaded dynamically via orbital.js -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- View 2: Mars Rover Image Processor -->
+                <section id="view-rover" class="hud-view">
+                    <div id="rover-module-container" class="height-full-container">
+                        <!-- Instantiated by rover.js -->
+                    </div>
+                </section>
+
+                <!-- View 3: APOD Historical Database -->
+                <section id="view-apod" class="hud-view">
+                    <div id="apod-module-container" class="height-full-container">
+                        <!-- Instantiated by apod.js -->
+                    </div>
+                </section>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- HUD Configuration Settings Modal -->
+    <div class="hud-modal" id="settings-modal">
+        <div class="modal-content panel glass-panel">
+            <div class="panel-header flex justify-between items-center">
+                <div>
+                    <span class="panel-tag">HUD CONFIGURATION</span>
+                    <h2>SYSTEM SETTINGS</h2>
+                </div>
+                <button class="modal-close-btn" id="settings-close">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label>NASA API ENCRYPTION KEY</label>
+                    <input type="text" id="api-key-input" class="hud-input" placeholder="DEMO_KEY">
+                    <span class="font-mono text-xs text-muted mt-2 block">
+                        Using DEMO_KEY limits calls to 30/hour. Get a free key at api.nasa.gov to remove limits.
+                    </span>
+                </div>
+                
+                <div class="setting-row">
+                    <div>
+                        <span class="label block font-semibold">SPACECRAFT AMBIENT HUM</span>
+                        <span class="font-mono text-xs text-muted block">Generates synthesized low-frequency reactor vibrations</span>
+                    </div>
+                    <label class="hud-switch">
+                        <input type="checkbox" id="ambient-hum-toggle">
+                        <span class="slider-switch"></span>
+                    </label>
+                </div>
+                
+                <button id="settings-save-btn" class="hud-btn glow-cyan w-full">SAVE & CALIBRATE</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Interactive Toast Notification Popup -->
+    <div id="hud-notification" class="hud-notify">
+        <div class="hud-notify-icon text-cyan">
+            <i data-lucide="bell" id="notify-icon-inner"></i>
+        </div>
+        <div class="hud-notify-text" id="notify-text-inner">SYSTEM STABILIZED</div>
+    </div>
+
+    <!-- Application Script Initializers -->
+    <script src="js/audio.js"></script>
+    <script src="js/stars.js"></script>
+    <script src="js/orbital.js"></script>
+    <script src="js/rover.js"></script>
+    <script src="js/apod.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
