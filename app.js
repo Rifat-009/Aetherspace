@@ -19,7 +19,9 @@ class AetherApp {
 
     init() {
         // Initialize Icons
-        lucide.createIcons();
+        if (window.lucide) {
+            lucide.createIcons();
+        }
 
         // Bind core buttons & DOM
         this.bindNavigation();
@@ -189,7 +191,9 @@ class AetherApp {
             toggleBtn.innerHTML = '<i data-lucide="volume-2"></i>';
             toggleBtn.classList.add('text-cyan');
         }
-        lucide.createIcons();
+        if (window.lucide) {
+            lucide.createIcons();
+        }
     }
 
     notify(text, type = 'info') {
@@ -208,7 +212,9 @@ class AetherApp {
             toast.style.borderColor = 'var(--neon-cyan)';
         }
 
-        lucide.createIcons();
+        if (window.lucide) {
+            lucide.createIcons();
+        }
         toast.classList.add('active');
 
         // Automatic dismiss
